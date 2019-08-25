@@ -10,15 +10,18 @@ from game_stats import GameStats
 
 
 
-
-
-
 def run_game():
 	#initialize game
 	pygame.init()
 	ai_set = Settings()
-	screen = pygame.display.set_mode((ai_set.width, ai_set.height))
+	
+	#load images
+	icon = pygame.image.load("resources/icon.jpeg")
 	backg = pygame.image.load("resources/background.png")
+	
+	#window settings
+	screen = pygame.display.set_mode((ai_set.width, ai_set.height))
+	pygame.display.set_icon(icon)
 	
 	#class istances
 	ai_set = Settings()
