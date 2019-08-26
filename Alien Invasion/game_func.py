@@ -188,14 +188,16 @@ def update_bullets(bullets, aliens, ai_set, screen, ship):
 	
 	
 def update_aliens(ai_set, stats, screen, aliens, ship, bullets):
-	#check if the fleet must change direction
-	check_fleet_edges(ai_set, aliens, ship)
-	
-
-	#update the fleet
-	aliens.update()
-	
-	check_aliens_bottom(ai_set, stats, screen, ship, aliens, bullets)
+	#check if any alien hits the ship
 	
 	if pygame.sprite.spritecollideany(ship, aliens):
 		ship_hit(ai_set, stats, screen, aliens, ship, bullets)
+		
+	#check if the fleet must change direction
+	check_fleet_edges(ai_set, aliens, ship)
+	
+	#update the fleet
+	aliens.update()
+	
+	#check if any alien reaches the bottom 
+	check_aliens_bottom(ai_set, stats, screen, ship, aliens, bullets)
