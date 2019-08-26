@@ -1,8 +1,8 @@
 import pygame
-
+    
 
 class Ship():
-	def __init__(self, screen, ai_set):
+	def __init__(self, screen, ai_set, ship_img):
 		self.screen = screen
 		
 		#movement flags
@@ -11,7 +11,7 @@ class Ship():
 		
 		
 		#load the image and the rect
-		self.image = pygame.image.load("resources/ship.bmp")
+		self.image = ship_img
 		self.rect = self.image.get_rect()
 		self.screen_rect = screen.get_rect()
 		

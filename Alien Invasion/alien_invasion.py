@@ -1,6 +1,8 @@
+import os
 import sys
 import pygame
 import game_func as gf
+
 
 from ship import Ship
 from alien import Alien
@@ -14,17 +16,16 @@ from game_stats import GameStats
 
 
 
-
 def run_game():
 	#initialize game
 	pygame.init()
 	
 	screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-	
-	
+
+	ship_img = pygame.image.load("resources/ship.bmp")
+	alien_img = pygame.image.load("resources/alien.bmp")
 	icon = pygame.image.load("resources/icon.jpeg")
 	backg = pygame.image.load("resources/background.png")
-	
 	
 	
 
@@ -32,7 +33,7 @@ def run_game():
 	
 	#class istances
 	ai_set = Settings(screen)
-	ship = Ship(screen, ai_set)
+	ship = Ship(screen, ai_set, ship_img)
 	stats = GameStats(ai_set)
 	bullets = Group()
 	aliens = Group()
@@ -40,14 +41,15 @@ def run_game():
 		
 	#functions
 	pygame.display.set_caption("Alien Invasion")
-	gf.create_fleet(ai_set, screen, aliens, ship)
+	gf.create_fleet(ai_set, screen, aliens, ship, alien_img)
 	
 	#main loop
 	while True:
 		screen.blit(backg, (0,0))
 		gf.check_events(ai_set, screen, aliens, ship, stats, bullets, 
-				play_b)
-	 
+				play_b, alien_img)
+		gf.update_screen(ai_set, screen, ship, aliens, bullets, play_b,
+			stats)
 		if stats.game_active:
 			ship.update()
 			gf.update_bullets(bullets, aliens, ai_set, screen, ship)

@@ -8,7 +8,7 @@ from bullet import Bullet
 
 
 def check_events(ai_set, screen, aliens, ship, stats, bullets, 
-		play_b):
+		play_b, alien_img):
 	#watch for keyboard and mouse event
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -23,7 +23,7 @@ def check_events(ai_set, screen, aliens, ship, stats, bullets,
 		elif event.type == pygame.MOUSEBUTTONDOWN:
 			mouse_x, mouse_y = pygame.mouse.get_pos()
 			check_play_button(ai_set, screen, aliens, ship, stats, 
-				bullets, play_b, mouse_x, mouse_y)
+				bullets, play_b, mouse_x, mouse_y, alien_img)
 			
 			
 def check_keydown_events(event, ai_set, screen, ship, bullets):
@@ -49,7 +49,7 @@ def check_keyup_events(event, ship):
 		ship.move_left = False
 		
 def check_play_button(ai_set, screen, aliens, ship, stats, bullets, 
-		play_b,	mouse_x, mouse_y):
+		play_b,	mouse_x, mouse_y, alien_img):
 	
 	#check if the button is clicked and starts a new game
 	buttonclicked = play_b.rect.collidepoint(mouse_x, mouse_y)
@@ -64,7 +64,7 @@ def check_play_button(ai_set, screen, aliens, ship, stats, bullets,
 		bullets.empty()
 		
 		#create a new fleet and center the ship
-		create_fleet(ai_set, screen, aliens, ship)
+		create_fleet(ai_set, screen, aliens, ship, alien_img)
 		ship.ship_center()
 		
 
@@ -82,7 +82,7 @@ def ship_hit(ai_set, stats, screen, aliens, ship, bullets):
 		ship.ship_center()
 		
 		#create a new fleet
-		create_fleet(ai_set, screen, aliens, ship)
+		create_fleet(ai_set, screen, aliens, ship, alien_img)
 		
 		#pause
 		sleep(0.5)
@@ -113,7 +113,7 @@ def check_bullet_alien_collision(ai_set, screen, aliens, ship, bullets):
 	if len(aliens) == 0: #if there are no aliens left
 		#destroy bullets and creates a new fleet 
 		bullets.empty()
-		create_fleet(ai_set, screen, aliens, ship)
+		create_fleet(ai_set, screen, aliens, ship, alien_img)
 	
 		
 def check_fleet_edges(ai_set, aliens, ship):
@@ -150,8 +150,8 @@ def get_num_aliens_x(ai_set, alien_wid):
 	return num_aliens_x
 	
 	
-def create_alien(ai_set, screen, aliens, alien_num, row):
-	alien = Alien(ai_set, screen)
+def create_alien(ai_set, screen, aliens, alien_num, row, alien_img):
+	alien = Alien(ai_set, screen, alien_img)
 	alien_wid = alien.rect.width
 	alien.x = alien_wid + 2 * alien_wid * alien_num
 	
@@ -162,11 +162,11 @@ def create_alien(ai_set, screen, aliens, alien_num, row):
 
 
 
-def create_fleet(ai_set, screen, aliens, ship):
+def create_fleet(ai_set, screen, aliens, ship, alien_img):
 	ai_set.fleet_dir = 1
 	
 	#create an alien and get his width
-	alien = Alien(ai_set, screen)
+	alien = Alien(ai_set, screen, alien_img)
 	
 	#gets the number of rows and aliens
 	num_aliens_x = get_num_aliens_x(ai_set, alien.rect.width)
@@ -176,7 +176,8 @@ def create_fleet(ai_set, screen, aliens, ship):
 	# create the first row
 	for row in range(num_rows):
 		for alien_num in range(num_aliens_x):
-			create_alien(ai_set, screen, aliens, alien_num, row)
+			create_alien(ai_set, screen, aliens, alien_num, row, 
+					alien_img)
 
 
 

@@ -5,13 +5,13 @@ from pygame.sprite import Sprite
 class Alien(Sprite):
 	"""single alien class""" 
 	
-	def __init__(self, ai_set, screen):
+	def __init__(self, ai_set, screen, alien_img):
 		super().__init__()
 		self.screen = screen
 		self.ai_set = ai_set
 		
 		# load the image
-		self.image = pygame.image.load("resources/alien.bmp")
+		self.image = alien_img
 		self.rect = self.image.get_rect()
 		
 		# each new alien is positioned at the top-left position
