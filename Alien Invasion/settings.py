@@ -13,7 +13,7 @@ class Settings():
 		self.bg = (0,0,0)
 		
 		#ship settings
-		self.ship_speed = 6.5
+		self.ship_speed = 6
 		self.ship_limit = 3
 		
 		#bullet settings

@@ -7,7 +7,8 @@ from bullet import Bullet
 
 
 
-def check_events(ai_set, screen, ship, bullets):
+def check_events(ai_set, screen, aliens, ship, stats, bullets, 
+		play_b):
 	#watch for keyboard and mouse event
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -18,8 +19,11 @@ def check_events(ai_set, screen, ship, bullets):
 			
 		elif event.type == pygame.KEYUP:
 			check_keyup_events(event, ship)
-		
 			
+		elif event.type == pygame.MOUSEBUTTONDOWN:
+			mouse_x, mouse_y = pygame.mouse.get_pos()
+			check_play_button(ai_set, screen, aliens, ship, stats, 
+				bullets, play_b, mouse_x, mouse_y)
 			
 			
 def check_keydown_events(event, ai_set, screen, ship, bullets):
@@ -44,7 +48,28 @@ def check_keyup_events(event, ship):
 		ship.move_right = False
 		ship.move_left = False
 		
+def check_play_button(ai_set, screen, aliens, ship, stats, bullets, 
+		play_b,	mouse_x, mouse_y):
+	
+	#check if the button is clicked and starts a new game
+	buttonclicked = play_b.rect.collidepoint(mouse_x, mouse_y)
+	
+	if buttonclicked and not stats.game_active:
+		#reset stats
+		stats.reset_stats()
+		stats.game_active = True
 		
+		#resets the screen
+		aliens.empty()
+		bullets.empty()
+		
+		#create a new fleet and center the ship
+		create_fleet(ai_set, screen, aliens, ship)
+		ship.ship_center()
+		
+
+
+
 def ship_hit(ai_set, stats, screen, aliens, ship, bullets):
 	
 	#decrement the ships left
@@ -161,20 +186,30 @@ def change_fleet_dir(ai_set, aliens):
 	#drops the fleet by 10 units and changes direction
 	for alien in aliens.sprites():
 		alien.rect.y += ai_set.fleet_drop
-	if ai_set.fleet_dir <= 1.5 or ai_set.fleet_dir >= -1.5:
+		
+	#alien speed limit
+	if ai_set.fleet_dir <= 2 and ai_set.fleet_dir >= -2:
 		ai_set.fleet_dir *= -1.1
 	else:
 		ai_set.fleet_dir *= -1
 	
 	
 	
-def update_screen(ai_set, screen, ship, aliens, bullets, background):
+def update_screen(ai_set, screen, ship, aliens, bullets, play_b, stats):
 	#redraw the screen
-	pygame.display.flip()
-	screen.fill(ai_set.bg)
-	screen.blit(background, (0,0))
+
 	ship.blitme()
 	aliens.draw(screen)
+	
+	#draw play button
+	if not stats.game_active:
+		play_b.draw_button()
+		pygame.mouse.set_visible(True) 
+	else:
+		pygame.mouse.set_visible(False) 
+	
+	pygame.display.flip()
+	
 	
 	
 def update_bullets(bullets, aliens, ai_set, screen, ship):

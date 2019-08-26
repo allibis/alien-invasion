@@ -4,6 +4,7 @@ import game_func as gf
 
 from ship import Ship
 from alien import Alien
+from button import Button
 from pygame.locals import *
 from settings import Settings
 from pygame.sprite import Group
@@ -19,22 +20,23 @@ def run_game():
 	pygame.init()
 	
 	screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-	ai_set = Settings(screen)
+	
 	
 	icon = pygame.image.load("resources/icon.jpeg")
 	backg = pygame.image.load("resources/background.png")
 	
 	
-	pygame.mouse.set_visible(False) 
-	""" pygame.mouse.set_cursor(*pygame.cursors.broken_x) """
+	
 
 	pygame.display.set_icon(icon)
 	
 	#class istances
+	ai_set = Settings(screen)
 	ship = Ship(screen, ai_set)
 	stats = GameStats(ai_set)
 	bullets = Group()
 	aliens = Group()
+	play_b = Button(ai_set, screen, "Play")
 		
 	#functions
 	pygame.display.set_caption("Alien Invasion")
@@ -42,17 +44,19 @@ def run_game():
 	
 	#main loop
 	while True:
-		gf.check_events(ai_set, screen, ship, bullets)
-		
+		screen.blit(backg, (0,0))
+		gf.check_events(ai_set, screen, aliens, ship, stats, bullets, 
+				play_b)
+	 
 		if stats.game_active:
 			ship.update()
 			gf.update_bullets(bullets, aliens, ai_set, screen, ship)
-			gf.update_screen(ai_set, screen, ship, aliens, bullets, backg)
 			gf.update_aliens(ai_set, stats, screen, aliens, ship, bullets)
-		else:
-			break
+
+
 		
-			
+		gf.update_screen(ai_set, screen, ship, aliens, bullets, play_b,
+			stats)
 
 
 run_game()

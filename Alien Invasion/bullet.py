@@ -25,7 +25,6 @@ class Bullet(Sprite):
 	def update(self):
 		#changes the position value, then  updates it
 		self.y -= self.speed
-		
 		self.rect.y = self.y
 
 	def draw_bullet(self):
