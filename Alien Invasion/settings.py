@@ -21,5 +21,5 @@ class Settings():
 		
 		#alien settings
 		self.alien_speed = 1
-		self.fleet_drop = 100 # drops by 10 pixels
+		self.fleet_drop = 10 # drops by 10 pixels
 		self.fleet_dir = 1 # '1' for right, '-1' for left
