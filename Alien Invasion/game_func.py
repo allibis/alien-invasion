@@ -113,6 +113,7 @@ def get_num_rows(ai_set, ship_height, alien_height):
 	#calculate the number of rows
 	available_y = ai_set.height - 3*alien_height - ship_height
 	number_rows = int(available_y / (2*alien_height))
+	ai_set.max_bullet = number_rows
 	return number_rows
 
 
@@ -160,8 +161,10 @@ def change_fleet_dir(ai_set, aliens):
 	#drops the fleet by 10 units and changes direction
 	for alien in aliens.sprites():
 		alien.rect.y += ai_set.fleet_drop
-	ai_set.fleet_dir *= -1.1
-
+	if ai_set.fleet_dir <= 1.5 or ai_set.fleet_dir >= -1.5:
+		ai_set.fleet_dir *= -1.1
+	else:
+		ai_set.fleet_dir *= -1
 	
 	
 	

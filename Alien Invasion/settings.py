@@ -2,14 +2,18 @@ import pygame
 
 class Settings():
 	
-	def __init__(self):
+	def __init__(self, screen):
 		#screen settings
-		self.width = 800
-		self.height = 600
+		self.screen = screen
+		
+		self.screen_rect = screen.get_rect()
+		self.width = self.screen_rect.width
+		self.height = self.screen_rect.height
+		
 		self.bg = (0,0,0)
 		
 		#ship settings
-		self.ship_speed = 3
+		self.ship_speed = 6.5
 		self.ship_limit = 3
 		
 		#bullet settings
@@ -20,6 +24,6 @@ class Settings():
 		self.max_bullet = 4
 		
 		#alien settings
-		self.alien_speed = 1
+		self.alien_speed = 2
 		self.fleet_drop = 10 # drops by 10 pixels
 		self.fleet_dir = 1 # '1' for right, '-1' for left

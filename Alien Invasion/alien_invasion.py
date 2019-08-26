@@ -4,27 +4,33 @@ import game_func as gf
 
 from ship import Ship
 from alien import Alien
+from pygame.locals import *
 from settings import Settings
 from pygame.sprite import Group
 from game_stats import GameStats
 
 
 
+
+
+
 def run_game():
 	#initialize game
 	pygame.init()
-	ai_set = Settings()
 	
-	#load images
+	screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+	ai_set = Settings(screen)
+	
 	icon = pygame.image.load("resources/icon.jpeg")
 	backg = pygame.image.load("resources/background.png")
 	
-	#window settings
-	screen = pygame.display.set_mode((ai_set.width, ai_set.height))
+	
+	pygame.mouse.set_visible(False) 
+	""" pygame.mouse.set_cursor(*pygame.cursors.broken_x) """
+
 	pygame.display.set_icon(icon)
 	
 	#class istances
-	ai_set = Settings()
 	ship = Ship(screen, ai_set)
 	stats = GameStats(ai_set)
 	bullets = Group()
