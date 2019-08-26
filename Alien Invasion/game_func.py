@@ -61,7 +61,9 @@ def ship_hit(ai_set, stats, screen, aliens, ship, bullets):
 		
 		#pause
 		sleep(0.5)
-	else:
+	else:	
+		aliens.empty()
+		bullets.empty()
 		stats.game_active = False
 	
 
@@ -87,11 +89,25 @@ def check_bullet_alien_collision(ai_set, screen, aliens, ship, bullets):
 		#destroy bullets and creates a new fleet 
 		bullets.empty()
 		create_fleet(ai_set, screen, aliens, ship)
+	
 		
+def check_fleet_edges(ai_set, aliens, ship):
+	for alien in aliens.sprites():
+		if alien.check_edges():
+			change_fleet_dir(ai_set, aliens)
+			break	
 	
 	
+def check_aliens_bottom(ai_set, stats, screen, ship, aliens, bullets):
+	# checks if any alien has reached the bottom of the screen
+	screen_rect = screen.get_rect()
+	for alien in aliens.sprites():
+		if alien.rect.bottom >= screen_rect.bottom:
+			#game over
+			ship_hit(ai_set, stats, screen, aliens, ship, bullets)
+			break
 	
-
+	
 
 def get_num_rows(ai_set, ship_height, alien_height):
 	#calculate the number of rows
@@ -137,11 +153,7 @@ def create_fleet(ai_set, screen, aliens, ship):
 			create_alien(ai_set, screen, aliens, alien_num, row)
 
 
-def check_fleet_edges(ai_set, aliens, ship):
-	for alien in aliens.sprites():
-		if alien.check_edges():
-			change_fleet_dir(ai_set, aliens)
-			break
+
 			
 			
 def change_fleet_dir(ai_set, aliens):
@@ -182,6 +194,8 @@ def update_aliens(ai_set, stats, screen, aliens, ship, bullets):
 
 	#update the fleet
 	aliens.update()
+	
+	check_aliens_bottom(ai_set, stats, screen, ship, aliens, bullets)
 	
 	if pygame.sprite.spritecollideany(ship, aliens):
 		ship_hit(ai_set, stats, screen, aliens, ship, bullets)
