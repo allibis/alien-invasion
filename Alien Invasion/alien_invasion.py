@@ -48,8 +48,7 @@ def run_game():
 		screen.blit(backg, (0,0))
 		gf.check_events(ai_set, screen, aliens, ship, stats, bullets, 
 				play_b, alien_img)
-		gf.update_screen(ai_set, screen, ship, aliens, bullets, play_b,
-			stats)
+		
 		if stats.game_active:
 			ship.update()
 			gf.update_bullets(bullets, aliens, ai_set, screen, ship)
