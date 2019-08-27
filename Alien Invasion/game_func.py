@@ -1,6 +1,8 @@
 import sys
 import pygame
 
+
+from logo import Logo
 from time import sleep
 from alien import Alien
 from bullet import Bullet
@@ -196,19 +198,23 @@ def change_fleet_dir(ai_set, aliens):
 	
 	
 	
-def update_screen(ai_set, screen, ship, aliens, bullets, play_b, stats):
+def update_screen(ai_set, screen, ship, aliens, bullets, play_b, stats,
+				logo):
+					
 	#redraw the screen
-
 	ship.blitme()
 	aliens.draw(screen)
+	
 	
 	#draw play button
 	if not stats.game_active:
 		play_b.draw_button()
+		logo.draw_logo()
 		pygame.mouse.set_visible(True) 
 	else:
-		pygame.mouse.set_visible(False) 
-	
+		pygame.mouse.set_visible(False)
+		 
+
 	pygame.display.flip()
 	
 	
