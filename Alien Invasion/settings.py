@@ -18,8 +18,8 @@ class Settings():
 		
 		#bullet settings
 		self.bullet_speed = 4.5
-		self.bullet_width = 3	# 3
-		self.bullet_height = 15	# 15
+		self.bullet_width = 4
+		self.bullet_height = 20
 		self.bullet_color = (255,255,0)
 		self.max_bullet = 4
 		
@@ -27,3 +27,4 @@ class Settings():
 		self.alien_speed = 2
 		self.fleet_drop = 10 # drops by 10 pixels
 		self.fleet_dir = 1 # '1' for right, '-1' for left
+		
