@@ -34,7 +34,7 @@ def run_game():
     backg = pygame.transform.scale(back_img, (screen_rect.width,screen_rect.height))
 
     # soundtrack
-    pygame.mixer.music.load("resources/Starlight.mp3")
+    pygame.mixer.music.load("resources/Starlight.ogg")
     pygame.mixer.music.play(loops=-1)  # -1 = loop
 
     # sound effects
