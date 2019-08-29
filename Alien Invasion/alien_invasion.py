@@ -13,6 +13,7 @@ from pygame.locals import *
 from settings import Settings
 from pygame.sprite import Group
 from game_stats import GameStats
+from scoreboard import Scoreboard
 
 
 def run_game():
@@ -31,26 +32,30 @@ def run_game():
     logo_img = pygame.image.load("resources/logo.png")
     icon = pygame.image.load("resources/icon.jpeg")
     back_img = pygame.image.load("resources/background.png")
-    backg = pygame.transform.scale(back_img, (screen_rect.width,screen_rect.height))
+    backg = pygame.transform.scale(back_img, (screen_rect.width,
+                                              screen_rect.height))
 
     # soundtrack
     pygame.mixer.music.load("resources/Starlight.ogg")
     pygame.mixer.music.play(loops=-1)  # -1 = loop
 
     # sound effects
-    laser_shot = pygame.mixer.Sound("resources/laser-shoot.wav")
-    alien_exp = pygame.mixer.Sound("resources/alien-explosion-1.wav")
+    laser_shot = pygame.mixer.Sound("resources/laser-shoot.ogg")
+    alien_exp = pygame.mixer.Sound("resources/alien-explosion-1.ogg")
 
     pygame.display.set_icon(icon)
 
     # class istances
-    ai_set = Settings(screen)
-    ship = Ship(screen, ai_set, ship_img)
-    stats = GameStats(ai_set)
-    bullets = Group()
     aliens = Group()
-    play_b = Button(ai_set, screen, "Play")
+    bullets = Group()
+    ai_set = Settings(screen)
+    stats = GameStats(ai_set)
     logo = Logo(screen, logo_img)
+    sb = Scoreboard(screen, stats)
+    ship = Ship(screen, ai_set, ship_img)
+    play_b = Button(ai_set, screen, "Play")
+
+
 
     # functions
     pygame.display.set_caption("Alien Invasion")
@@ -59,24 +64,19 @@ def run_game():
     # main loop
     while True:
         screen.blit(backg, (0, 0))
-        gf.check_events(
-            ai_set, screen, aliens, ship, stats,
-			bullets, play_b, alien_img, laser_shot
-        )
+        gf.check_events(ai_set, screen, aliens, ship, stats,
+                        bullets, play_b, alien_img, laser_shot)
 
         if stats.game_active:
             ship.update()
-            gf.update_bullets(
-                bullets, aliens, ai_set, screen, ship, alien_exp, alien_img
-            )
+            gf.update_bullets(bullets, aliens, ai_set,
+                              screen, ship, alien_exp, alien_img, stats, sb)
 
-            gf.update_aliens(
-				ai_set, stats, screen, aliens, ship, bullets, alien_img
-			)
+            gf.update_aliens(ai_set, stats, screen,
+                             aliens, ship, bullets, alien_img)
 
-        gf.update_screen(
-			ai_set, screen, ship, aliens, bullets, play_b, stats, logo
-		)
+        gf.update_screen(ai_set, screen, ship, aliens,
+                         bullets, play_b, stats, logo, sb)
 
     pygame.quit()
 
