@@ -225,7 +225,7 @@ def change_fleet_dir(ai_set, aliens):
 		alien.rect.y += ai_set.fleet_drop
 
 	# alien speed limit
-	if ai_set.fleet_dir <= 2 and ai_set.fleet_dir >= -2:
+	if ai_set.fleet_dir <= 4 and ai_set.fleet_dir >= -4:
 		ai_set.fleet_dir *= -1.1
 	else:
 		ai_set.fleet_dir *= -1
